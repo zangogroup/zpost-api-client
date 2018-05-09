@@ -1,0 +1,7 @@
+.classpath
+*.swp
+.settings
+.tern-project
+.project
+target
+
