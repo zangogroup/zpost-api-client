@@ -12,9 +12,9 @@ public class StartupAction extends SimpleAction {
 	public void run(String[] ids) throws ActionException {
 
 		/*
-		 * When the client module starts, it registers so that it can listen to
+		 * When the client module starts, it registers the listener(s) so that it can listen to
 		 * responses provided asynchronously by ZPost. Please note that listeners can
-		 * also be register using XML configuration and that you can have as many
+		 * also be registered using XML configuration and that you can have as many
 		 * listeners as you want
 		 */
 

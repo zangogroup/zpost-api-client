@@ -45,7 +45,7 @@ public class ZPostAPIClientPortlet extends MVCPortlet {
 		} catch (SystemException | PortalException e) {
 			/*
 			 * If any errors raise here, that means that something went wrong before the
-			 * call to ZPost webservices
+			 * call to ZPost webservices was queued
 			 */
 		}
 
