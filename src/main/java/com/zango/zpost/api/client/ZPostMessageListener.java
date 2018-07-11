@@ -3,6 +3,8 @@ package com.zango.zpost.api.client;
 import java.util.Date;
 import java.util.List;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.messaging.MessageListenerException;
@@ -12,13 +14,19 @@ import com.zango.zpost.api.constant.DestinationNames;
 
 public class ZPostMessageListener implements MessageListener {
 
+	private Log _log = LogFactoryUtil.getLog(ZPostMessageListener.class);
+
 	@Override
 	public void receive(Message message) throws MessageListenerException {
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("just received a new message: " + message);
+		}
 
 		// from that value, developer can identify where the original request came from
 		String destinationName = message.getDestinationName();
 
-		if (DestinationNames.ACCOUNT_REGISTER.equals(destinationName)) {
+		if (DestinationNames.ACCOUNTS_REGISTER_FEEDBACK.equals(destinationName)) {
 
 			// this is the response message following a call for account registration
 

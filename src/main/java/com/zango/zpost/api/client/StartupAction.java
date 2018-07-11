@@ -12,20 +12,18 @@ public class StartupAction extends SimpleAction {
 	public void run(String[] ids) throws ActionException {
 
 		/*
-		 * When the client module starts, it registers the listener(s) so that it can listen to
-		 * responses provided asynchronously by ZPost. Please note that listeners can
-		 * also be registered using XML configuration and that you can have as many
-		 * listeners as you want
+		 * When the client module starts, it registers the listener(s) so that it can
+		 * listen to responses provided asynchronously by ZPost. Please note that
+		 * listeners can also be registered using XML configuration and that you can
+		 * have as many listeners as you want
 		 */
 
 		MessageListener messageListener = new ZPostMessageListener();
-		
-		MessageBusUtil.registerMessageListener(DestinationNames.ACCOUNT_REGISTER, messageListener);
-		MessageBusUtil.registerMessageListener(DestinationNames.ACCOUNT_UPDATE, messageListener);
-		MessageBusUtil.registerMessageListener(DestinationNames.ACCOUNT_UPDATE_EMAIL_ADDRESSES, messageListener);
-		MessageBusUtil.registerMessageListener(DestinationNames.CUSTOMER_REGISTER, messageListener);
-		MessageBusUtil.registerMessageListener(DestinationNames.CUSTOMER_UPDATE, messageListener);
-		MessageBusUtil.registerMessageListener(DestinationNames.CUSTOMER_UPDATE_EMAIL_ADDRESSES, messageListener);
+
+		MessageBusUtil.registerMessageListener(DestinationNames.ACCOUNTS_REGISTER_FEEDBACK, messageListener);
+		MessageBusUtil.registerMessageListener(DestinationNames.ACCOUNTS_UPDATE_EMAIL_ADDRESSES_FEEDBACK,
+				messageListener);
+		MessageBusUtil.registerMessageListener(DestinationNames.ACCOUNTS_UNREGISTER_FEEDBACK, messageListener);
 	}
 
 }
