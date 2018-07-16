@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.messaging.MessageListenerException;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.service.ServiceContext;
 import com.zango.zpost.api.constant.DestinationNames;
+import com.zango.zpost.api.util.MessageUtil;
 
 public class ZPostMessageListener implements MessageListener {
 
@@ -26,28 +27,38 @@ public class ZPostMessageListener implements MessageListener {
 		// from that value, developer can identify where the original request came from
 		String destinationName = message.getDestinationName();
 
-		if (DestinationNames.ACCOUNTS_REGISTER_FEEDBACK.equals(destinationName)) {
-
-			// this is the response message following a call for account registration
-
-			// same parameters as those sent along with the call are available
-			String accountId = message.getString("accountId"); // "A12345"
-			String accountLabel = message.getString("accountLabel"); // "Zango (Maurice) Ltée"
-			String customerId = message.getString("customerId"); // "C12345"
-			String customerLabel = message.getString("customerLabel"); // "Groupe Zango"
-			List<String> emailAddresses = (List) message.get("emailAddresses"); // "eric.coquelin@zango.pro,reda.zejli@zango.pro"
-			Date fromDate = (Date) message.get("fromDate"); // new Date()
-			String vendorId = message.getString("vendorId"); // "MT/mobile"
-			ServiceContext serviceContext = (ServiceContext) message.get("serviceContext"); // ServiceContextFactory.getInstance(request)
-
-		}
-
-		String error = message.getString("error");
-		if (Validator.isNotNull(error)) {
-			// there is an error, developer must handle it
+		boolean isSuccessful = MessageUtil.isSuccessful(message);
+		if (isSuccessful) {
+			/*
+			 * it works
+			 */
 		} else {
-			// will provide with the unique identifier of the activated ebilling rule
-			String notificationRuleCode = message.getString("notificationRuleCode");
+			/*
+			 * Something went wrong
+			 */
+			Exception error = MessageUtil.getError(message);
+			if (error != null) {
+				_log.error("This is the error received from ZPost", error);
+			}
 		}
+
+		switch (destinationName) {
+		case DestinationNames.ACCOUNTS_REGISTER_FEEDBACK:
+			/*
+			 * Do whatever you need if registration fails
+			 */
+			break;
+		case DestinationNames.ACCOUNTS_UNREGISTER_FEEDBACK:
+			/*
+			 * Do whatever you need if unregistration fails
+			 */
+			break;
+		case DestinationNames.ACCOUNTS_UPDATE_EMAIL_ADDRESSES_FEEDBACK:
+			/*
+			 * Do whatever you need if updating email addresses fails
+			 */
+			break;
+		}
+
 	}
 }
