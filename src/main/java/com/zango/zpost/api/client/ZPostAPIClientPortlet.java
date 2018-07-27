@@ -92,11 +92,16 @@ public class ZPostAPIClientPortlet extends MVCPortlet {
 	public void unregisterAccounts(ActionRequest request, ActionResponse response) {
 
 		try {
-			List<String> accountIds = ListUtil.fromString("A1,A2,A3", StringPool.COMMA);
-			String deliveryMode = DeliveryModes.EMAIL;
+
+			List<String> accountIds = ListUtil.fromString(ParamUtil.getString(request, "accountIds", "A1,A2,A3"),
+					StringPool.COMMA);
+			String deliveryMode = ParamUtil.getString(request, "deliveryMode", DeliveryModes.EMAIL);
 			Date fromDate = new Date();
-			String vendorId = Vendors.MOBILE;
+			String vendorId = ParamUtil.getString(request, "vendorId", Vendors.MOBILE);
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
+
+			_log.debug("accountIds=" + accountIds.size() + ", deliveryMode=" + deliveryMode + ", fromDate=" + fromDate
+					+ ", vendorId=" + vendorId);
 
 			ZPostLocalServiceUtil.unregisterAccountIds(accountIds, deliveryMode, fromDate, vendorId, serviceContext);
 
